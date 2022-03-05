@@ -1,3 +1,4 @@
+from typing import Dict
 import pathlib
 import struct
 import pandas
@@ -56,7 +57,6 @@ def dbobjects() -> pandas.DataFrame:
     result = pandas.DataFrame(result, columns=columns)
 
     return result.set_index('DB Name')
-
 
 def dbfamily() -> pandas.DataFrame:
 
@@ -147,9 +147,50 @@ def dbweapontohit() -> pandas.DataFrame:
 
     return pandas.DataFrame(result, columns=columns).set_index('Weapon Hit ID')
 
+def dbtechtree(num_epoch: int = 15) -> Dict[str, pandas.DataFrame]:
 
-def weapon_to_hit_map() -> pandas.DataFrame:
-    return pandas.read_csv(path_base / 'weapontohit_export.csv', index_col=2)['Unnamed: 0']
+    num_bytes_per_tech_epoch = 1368
+
+    result = dict()
+
+    num_bytes_per_name = 100
+
+    num_fields_per_tech = 18 * 4 - (num_bytes_per_name - 1) + 2
+
+    with open(path_base / 'dbtechtree.dat', 'rb') as file:
+
+        for index_epoch in range(num_epoch):
+
+            num_techs = struct.unpack('i', file.read(4))[0] + 1
+
+            print('num_techs', num_techs)
+
+            result_epoch = []
+            for index_tech in range(num_techs):
+
+                result_epoch_tech = []
+                for index_field in range(num_fields_per_tech):
+
+                    if index_field == 0:
+                        num_bytes = 24
+                    else:
+                        num_bytes = 4
+                    datum = file.read(num_bytes)
+                    if index_field == 0:
+                        value = datum.decode(errors='ignore').replace('\x00', '')
+                        # columns.append(value)
+                    else:
+                        value = struct.unpack('i', datum)[0]
+                    result_epoch_tech.append(value)
+
+                print(result_epoch_tech)
+                result_epoch.append(result_epoch_tech)
+
+            result[index_epoch] = result_epoch
+
+    return result
+
+
 
 
 def language() -> pandas.DataFrame:
