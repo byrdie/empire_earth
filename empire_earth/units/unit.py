@@ -1,22 +1,6 @@
 import dataclasses
 import pandas
 
-@dataclasses.dataclass
-class Attack:
-    strength: float = 0
-    seconds_per_hit: float = 0
-    mode: int = 0
-    weapon_hit_id: int = 0
-
-
-@dataclasses.dataclass
-class Armor:
-    shock: float = 0
-    arrow: float = 0
-    pierce: float = 0
-    gun: float = 0
-    laser: float = 0
-    missile: float = 0
 
 
 @dataclasses.dataclass

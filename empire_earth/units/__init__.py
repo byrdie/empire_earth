@@ -1,6 +1,6 @@
 from typing import List, Dict
 from empire_earth import databases
-from .unit import Armor, Attack, Unit
+from .unit import Unit
 
 
 def units_all() -> Dict[str, Unit]:

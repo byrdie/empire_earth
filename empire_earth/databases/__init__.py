@@ -149,43 +149,89 @@ def dbweapontohit() -> pandas.DataFrame:
 
 def dbtechtree(num_epoch: int = 15) -> Dict[str, pandas.DataFrame]:
 
-    num_bytes_per_tech_epoch = 1368
+
 
     result = dict()
 
-    num_bytes_per_name = 100
+    num_bytes_per_name = 28
+    num_bytes_per_tech = 272
+    num_bytes_all_fields = num_bytes_per_tech - num_bytes_per_name
+    num_bytes_per_link = 272
 
-    num_fields_per_tech = 18 * 4 - (num_bytes_per_name - 1) + 2
+    num_fields_per_tech = int(num_bytes_all_fields / 4) + 1
+
+    # print('num_fields_per_tech', num_fields_per_tech)
 
     with open(path_base / 'dbtechtree.dat', 'rb') as file:
 
         for index_epoch in range(num_epoch):
 
+            # print('index_epoch', index_epoch)
+
             num_techs = struct.unpack('i', file.read(4))[0] + 1
 
-            print('num_techs', num_techs)
+            # print('num_techs', num_techs)
 
             result_epoch = []
             for index_tech in range(num_techs):
 
+                # print('index_tech', index_tech)
+
                 result_epoch_tech = []
                 for index_field in range(num_fields_per_tech):
 
+                    # print('index_field', index_field)
+
                     if index_field == 0:
-                        num_bytes = 24
+                        num_bytes = num_bytes_per_name
                     else:
                         num_bytes = 4
                     datum = file.read(num_bytes)
+
                     if index_field == 0:
                         value = datum.decode(errors='ignore').replace('\x00', '')
-                        # columns.append(value)
+                        # while True:
+                            # print('datum', datum)
+                            # try:
+                            #     value = datum.decode(encoding='utf-8').replace('\x00', '')
+                            #     break
+                            # except UnicodeDecodeError:
+                            #     print(' - link found')
+                            #     file.read(num_bytes_per_link - num_bytes_per_name)
+                            #     datum = file.read(num_bytes)
+                            #     # print('datum', datum)
+
                     else:
+                        # print('datum', datum)
                         value = struct.unpack('i', datum)[0]
+
+                        if index_field == num_fields_per_tech - 1:
+                            num_extra_bytes = 4 * value
+                            # print('num_extra_bytes', num_extra_bytes)
+                            file.read(num_extra_bytes)
+
                     result_epoch_tech.append(value)
 
-                print(result_epoch_tech)
-                result_epoch.append(result_epoch_tech)
+                # print(result_epoch_tech[0])
+                if result_epoch_tech[0]:
+                    result_epoch.append(result_epoch_tech)
 
+            result_epoch = pandas.DataFrame(result_epoch)
+            mapping_columns = {
+                20: 'Tech ID',
+                21: 'Starting Epoch',
+                22: 'Ending Epoch',
+                25: 'Wood Cost',
+                26: 'Stone Cost',
+                28: 'Gold Cost',
+                30: 'Iron Cost',
+                31: 'Food Cost',
+                32: 'Build Time Decrease',
+                37: 'Object ID',
+                38: 'Button ID',
+
+            }
+            result_epoch = result_epoch.rename(columns=mapping_columns)
             result[index_epoch] = result_epoch
 
     return result
