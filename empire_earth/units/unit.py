@@ -19,10 +19,15 @@ class Unit:
     armor_gun: float = 0
     armor_laser: float = 0
     armor_missile: float = 0
-    dbfamily: pandas.DataFrame = dataclasses.field(default_factory=pandas.DataFrame, repr=False)
-    dbweapontohit: pandas.DataFrame = dataclasses.field(default_factory=pandas.DataFrame, repr=False)
     epoch_start: int = 0
     epoch_stop: int = 0
+    cost_food: int = 0
+    cost_wood: int = 0
+    cost_stone: int = 0
+    cost_iron: int = 0
+    cost_gold: int = 0
+    dbfamily: pandas.DataFrame = dataclasses.field(default_factory=pandas.DataFrame, repr=False)
+    dbweapontohit: pandas.DataFrame = dataclasses.field(default_factory=pandas.DataFrame, repr=False)
 
     def attack_multiplier_family(self, defender: 'Unit'):
         return self.dbfamily.loc[defender.family, self.attack_mode]

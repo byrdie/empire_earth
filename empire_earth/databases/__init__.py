@@ -227,11 +227,14 @@ def dbtechtree(num_epoch: int = 15) -> Dict[str, pandas.DataFrame]:
                 30: 'Iron Cost',
                 31: 'Food Cost',
                 32: 'Build Time Decrease',
+                33: 'Upgrade Tech ID',
                 37: 'Object ID',
                 38: 'Button ID',
-
+                46: 'Button Index',
+                60: 'Building ID',
             }
             result_epoch = result_epoch.rename(columns=mapping_columns)
+            result_epoch = result_epoch.set_index('Object ID')
             result[index_epoch] = result_epoch
 
     return result
