@@ -28,6 +28,7 @@ def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
         result.append(result_row)
 
     result = pandas.DataFrame(result, columns=['Attacker'] + [unit.name for unit in units])
+    result = result.set_index('Attacker')
 
     return result
 
