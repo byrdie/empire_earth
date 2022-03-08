@@ -26,24 +26,24 @@ def all() -> Dict[str, Unit]:
             tech_id = row['Technology ID']
 
             if '(Fire)' in name:
-                print(' - skipping', name)
+                # print(' - skipping', name)
                 continue
 
             if '(Crusader)' in name:
-                print(' - skipping', name)
+                # print(' - skipping', name)
                 continue
 
             if object_id == -1:
                 continue
 
             if tech_id not in dbtechtree.index:
-                print(' - skipping', name)
+                # print(' - skipping', name)
                 continue
 
             row_techtree = dbtechtree.loc[tech_id]
 
             if row_techtree[58] and row_techtree[59] and row_techtree[60] and row_techtree[61]:
-                print(' - skipping', name)
+                # print(' - skipping', name)
                 continue
 
             # if row_techtree['Button Index'] == -1:
