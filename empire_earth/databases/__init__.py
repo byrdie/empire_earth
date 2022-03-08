@@ -154,11 +154,12 @@ def dbtechtree(num_epoch: int = 15) -> Dict[str, pandas.DataFrame]:
     result = dict()
 
     num_bytes_per_name = 28
+    num_bytes_per_field = 4
     num_bytes_per_tech = 272
     num_bytes_all_fields = num_bytes_per_tech - num_bytes_per_name
     num_bytes_per_link = 272
 
-    num_fields_per_tech = int(num_bytes_all_fields / 4) + 1
+    num_fields_per_tech = int(num_bytes_all_fields / num_bytes_per_field) + 1
 
     # print('num_fields_per_tech', num_fields_per_tech)
 
@@ -189,28 +190,27 @@ def dbtechtree(num_epoch: int = 15) -> Dict[str, pandas.DataFrame]:
                     datum = file.read(num_bytes)
 
                     if index_field == 0:
-                        value = datum.decode(errors='ignore').replace('\x00', '')
-                        # while True:
-                            # print('datum', datum)
-                            # try:
-                            #     value = datum.decode(encoding='utf-8').replace('\x00', '')
-                            #     break
-                            # except UnicodeDecodeError:
-                            #     print(' - link found')
-                            #     file.read(num_bytes_per_link - num_bytes_per_name)
-                            #     datum = file.read(num_bytes)
-                            #     # print('datum', datum)
+                        value = [datum.decode(errors='ignore').replace('\x00', '')]
+
+                    elif 51 <= index_field <= 54:
+                        value = struct.unpack('f', datum)
+
+                    elif index_field in [39, 55]:
+                        value = struct.unpack('????', datum)
 
                     else:
                         # print('datum', datum)
-                        value = struct.unpack('i', datum)[0]
+                        value = struct.unpack('i', datum)
 
                         if index_field == num_fields_per_tech - 1:
-                            num_extra_bytes = 4 * value
-                            # print('num_extra_bytes', num_extra_bytes)
-                            file.read(num_extra_bytes)
+                            num_fields_extra = value[0]
 
-                    result_epoch_tech.append(value)
+                            for index_field_extra in range(num_fields_extra):
+                                v = struct.unpack('i', file.read(num_bytes_per_field))[0]
+                                if v < result_epoch_tech[~0]:
+                                    result_epoch_tech[~0] = v
+
+                    result_epoch_tech += value
 
                 # print(result_epoch_tech[0])
                 if result_epoch_tech[0]:
@@ -218,7 +218,7 @@ def dbtechtree(num_epoch: int = 15) -> Dict[str, pandas.DataFrame]:
 
             result_epoch = pandas.DataFrame(result_epoch)
             mapping_columns = {
-                20: 'Tech ID',
+                20: 'Technology ID',
                 21: 'Starting Epoch',
                 22: 'Ending Epoch',
                 25: 'Wood Cost',
@@ -230,11 +230,13 @@ def dbtechtree(num_epoch: int = 15) -> Dict[str, pandas.DataFrame]:
                 33: 'Upgrade Tech ID',
                 37: 'Object ID',
                 38: 'Button ID',
-                46: 'Button Index',
-                60: 'Building ID',
+                46 + 3: 'Button Index',
+                57 + 3 + 3: 'Epoch',
+                59 + 3 + 3: 'Base Technology ID',
+                60 + 3 + 3: 'Building ID',
             }
             result_epoch = result_epoch.rename(columns=mapping_columns)
-            result_epoch = result_epoch.set_index('Object ID')
+            result_epoch = result_epoch.set_index('Technology ID')
             result[index_epoch] = result_epoch
 
     return result

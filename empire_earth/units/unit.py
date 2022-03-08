@@ -7,7 +7,9 @@ import pandas
 class Unit:
     name: str = ''
     id: int = 0
+    type_id: int = 0
     family: int = 0
+    building_id: int = 0
     hitpoints: float = 0
     attack: float = 0
     attack_mode: int = 0
@@ -28,6 +30,10 @@ class Unit:
     cost_gold: int = 0
     dbfamily: pandas.DataFrame = dataclasses.field(default_factory=pandas.DataFrame, repr=False)
     dbweapontohit: pandas.DataFrame = dataclasses.field(default_factory=pandas.DataFrame, repr=False)
+
+    @property
+    def cost_total(self) -> int:
+        return self.cost_food + self.cost_wood + self.cost_stone + self.cost_iron + self.cost_gold
 
     def attack_multiplier_family(self, defender: 'Unit'):
         return self.dbfamily.loc[defender.family, self.attack_mode]
@@ -59,13 +65,22 @@ class Unit:
             raise ValueError
 
     def damage_dealt_per_hit(self, defender: 'Unit'):
-        return self.attack_final(self) - defender.armor_final(self)
+        attack = self.attack_final(defender)
+        if attack == 0:
+            return 0.
+        else:
+            damage = attack - defender.armor_final(self)
+            damage = max(1, damage)
+            return damage
 
     def damage_dealt_per_second(self, defender: 'Unit'):
-        return self.damage_dealt_per_hit(defender) / self.attack.seconds_per_hit
+        return self.damage_dealt_per_hit(defender) / self.seconds_per_attack
 
     def fractional_damage_dealt_per_second(self, defender: 'Unit'):
         return self.damage_dealt_per_second(defender) / defender.hitpoints
+
+    def fractional_damage_dealt_per_second_per_resource(self, defender: 'Unit'):
+        return self.fractional_damage_dealt_per_second(defender) / self.cost_total
 
     def is_available(self, epoch: int):
         return self.epoch_start <= epoch <= self.epoch_stop
