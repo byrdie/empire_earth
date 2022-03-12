@@ -9,8 +9,8 @@ def stylize(df: pandas.DataFrame):
     return df.style.set_sticky('rows').background_gradient(
         axis=None,
         cmap='bwr_r',
-        vmin=-2,
-        vmax=2,
+        vmin=-1,
+        vmax=1,
         gmap=gmap,
     )
 

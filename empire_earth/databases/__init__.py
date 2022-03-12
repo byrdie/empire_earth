@@ -1,5 +1,6 @@
 from typing import Dict
 import pathlib
+import pickle
 import struct
 import pandas
 
@@ -15,6 +16,21 @@ def dbobjects_struct() -> pandas.DataFrame:
 
 
 def dbobjects() -> pandas.DataFrame:
+    cache = path_base / 'dbobjects.pickle'
+
+    if not cache.exists():
+        result = _calc_dbobjects()
+        with open(cache, 'wb') as handle:
+            pickle.dump(result, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    else:
+        with open(cache, 'rb') as handle:
+            result = pickle.load(handle)
+
+    return result
+
+
+def _calc_dbobjects() -> pandas.DataFrame:
     """
     .. jupyter-execute::
         
