@@ -12,7 +12,7 @@ setup(
         'astropy-sphinx-theme',
         'jupyter-sphinx',
     ],
-    data_files=[
+    package_data=[
         ('empire_earth/databases', [
             'empire_earth/databases/*.dat',
             'empire_earth/databases/*.csv',
