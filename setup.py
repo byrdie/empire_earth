@@ -14,9 +14,9 @@ setup(
     ],
     package_data={
         'empire_earth': [
-            'empire_earth/databases/*.dat',
-            'empire_earth/databases/*.csv',
-            'empire_earth/databases/*.txt',
+            'databases/*.dat',
+            'databases/*.csv',
+            'databases/*.txt',
         ],
     },
     include_package_data=True,
