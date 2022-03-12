@@ -12,6 +12,7 @@ setup(
         'astropy-sphinx-theme',
         'jupyter-sphinx',
     ],
+    include_package_data=True,
     url='https://github.com/byrdie/empire_earth',
     license='',
     author='Roy Smart',
