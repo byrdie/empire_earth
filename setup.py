@@ -7,6 +7,7 @@ setup(
     install_requires=[
         'pytest',
         'numpy',
+        'matplotlib',
         'pandas',
         'sphinx-autodoc-typehints',
         'astropy-sphinx-theme',
