@@ -7,7 +7,6 @@ path_base = pathlib.Path(__file__).parent
 
 
 def dbobjects_struct() -> pandas.DataFrame:
-    raise ValueError(list(path_base.glob('*')))
     return pandas.read_csv(
         path_base / 'dbobject_struct.csv',
         names=['field name', 'cX', 'num_bytes', 'dtype'],
