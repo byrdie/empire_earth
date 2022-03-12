@@ -13,7 +13,7 @@ setup(
         'jupyter-sphinx',
     ],
     package_data={
-        'empire_earth/databases': [
+        'empire_earth': [
             'empire_earth/databases/*.dat',
             'empire_earth/databases/*.csv',
             'empire_earth/databases/*.txt',
