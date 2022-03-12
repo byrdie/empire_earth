@@ -84,3 +84,28 @@ class Unit:
 
     def is_available(self, epoch: int):
         return self.epoch_start <= epoch <= self.epoch_stop
+
+    @property
+    def theater_id(self):
+        type_id_map = {
+            2: 'Land Building',
+            3: 'Planes',
+            4: 'Ships',
+            5: 'Land',
+            6: 'Citizen',
+            7: 'Helicopter',
+            10: 'Submarines',
+            13: 'Land',
+            17: 'Helicopter',
+            23: 'Hero',
+        }
+        ordering_map = [
+            'Citizen',
+            'Land',
+            'Ships',
+            'Submarines',
+            'Planes',
+            'Helicopters',
+        ]
+        ordering_map = {item: ordering_map.index(item) for item in ordering_map}
+        return ordering_map[type_id_map[self.type_id]]

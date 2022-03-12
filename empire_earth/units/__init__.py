@@ -104,5 +104,7 @@ def attackers(epoch: Optional[int] = None) -> Dict[str, Unit]:
     units = all()
     units = [units[name] for name in units if is_attacker(units[name], epoch)]
     units.sort(key=lambda unit: unit.cost_total)
+    units.sort(key=lambda unit: unit.weapon_hit_id)
+    units.sort(key=lambda unit: unit.theater_id)
     units = {unit.name: unit for unit in units}
     return units
