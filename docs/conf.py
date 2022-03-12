@@ -71,9 +71,9 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'bootstrap-astropy'
 html_theme_options = {
-    'logotext1': 'kg',  # white,  semi-bold
-    'logotext2': 'py',  # blue, light
-    'logotext3': ':docs',  # white,  light
+    'logotext1': 'Empire Earth',  # white,  semi-bold
+    'logotext2': '',  # blue, light
+    'logotext3': '',  # white,  light
     'astropy_project_menubar': False
 }
 html_sidebars = {

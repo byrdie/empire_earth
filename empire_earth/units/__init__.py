@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Optional
 import pandas
 from empire_earth import databases
 from .unit import Unit
@@ -96,7 +96,13 @@ def all() -> Dict[str, Unit]:
     return result
 
 
-def attackers() -> Dict[str, Unit]:
+def attackers(epoch: Optional[int] = None) -> Dict[str, Unit]:
+
+    def is_attacker(unit: Unit, epoch: Optional[int]):
+        return unit.attack > 0 and unit.seconds_per_attack > 0 and unit.is_available(epoch)
+
     units = all()
-    units = {name: units[name] for name in units if units[name].attack > 0 and units[name].seconds_per_attack > 0}
+    units = [units[name] for name in units if is_attacker(units[name], epoch)]
+    units.sort(key=lambda unit: unit.cost_total)
+    units = {unit.name: unit for unit in units}
     return units

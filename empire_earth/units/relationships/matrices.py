@@ -4,6 +4,17 @@ import pandas
 from ..unit import Unit
 
 
+def stylize(df: pandas.DataFrame):
+    gmap = np.log10(df.to_numpy())
+    return df.style.set_sticky('rows').background_gradient(
+        axis=None,
+        cmap='bwr_r',
+        vmin=-2,
+        vmax=2,
+        gmap=gmap,
+    )
+
+
 def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
 
     result = []
@@ -34,8 +45,8 @@ def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
 
 
 def matrix_tactical(units: List[Unit]) -> pandas.DataFrame:
-    return _matrix('fractional_damage_dealt_per_second', units)
+    return stylize(_matrix('fractional_damage_dealt_per_second', units))
 
 
 def matrix_strategic(units: List[Unit]) -> pandas.DataFrame:
-    return _matrix('fractional_damage_dealt_per_second_per_resource', units)
+    return stylize(_matrix('fractional_damage_dealt_per_second_per_resource', units))
