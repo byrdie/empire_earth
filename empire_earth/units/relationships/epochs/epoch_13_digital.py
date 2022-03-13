@@ -10,7 +10,7 @@ Units
 
     epoch = 13
     units = empire_earth.units.attackers(epoch)
-    pandas.DataFrame(units)
+    pandas.DataFrame(units.values())
 
 ===========================
 Tactical Unit Relationships
