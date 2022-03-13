@@ -18,8 +18,9 @@ def all() -> Dict[str, Unit]:
     result = dict()
 
     ignored_units = [
+        'SAS Commando',
         'Spitfire Fighter',
-        'ME109 Fighter/Bomber',
+        'ME109  Fighter/Bomber',
         'Heinkel Bomber',
     ]
 
@@ -39,7 +40,7 @@ def all() -> Dict[str, Unit]:
                 # print(' - skipping', name)
                 continue
 
-            object_id = row.index.name
+            object_id = index
             if object_id == -1:
                 continue
 
@@ -115,13 +116,13 @@ def all() -> Dict[str, Unit]:
 def attackers(epoch: Optional[int] = None) -> Dict[str, Unit]:
 
     def is_attacker(unit: Unit, epoch: Optional[int]):
-        return unit.attack > 0 and unit.seconds_per_attack > 0 and unit.is_available(epoch)
+        return unit.attack > 0 and unit.seconds_per_attack > 0 and unit.is_available(epoch) and unit.building != 'Town Center'
 
     units = all()
     units = [units[name] for name in units if is_attacker(units[name], epoch)]
     units.sort(key=lambda unit: unit.button_id)
     units.sort(key=lambda unit: unit.cost_total)
+    units.sort(key=lambda unit: unit.theater_id)
     units.sort(key=lambda unit: unit.building_id_sorted)
-    # units.sort(key=lambda unit: unit.theater_id)
     units = {unit.name: unit for unit in units}
     return units

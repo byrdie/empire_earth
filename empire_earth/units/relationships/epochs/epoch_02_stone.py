@@ -6,6 +6,10 @@ Units
 .. jupyter-execute::
 
     import pandas
+    pandas.set_option('display.max_columns', 1000)
+    pandas.set_option('display.max_rows', 1000)
+    pandas.set_option('display.max_colwidth', 200)
+
     import empire_earth.units.relationships.matrices
 
     epoch = 2

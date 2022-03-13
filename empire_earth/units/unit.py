@@ -1,6 +1,7 @@
 import dataclasses
+import math
+import numpy as np
 import pandas
-
 
 
 @dataclasses.dataclass
@@ -29,8 +30,12 @@ class Unit:
     cost_stone: int = 0
     cost_iron: int = 0
     cost_gold: int = 0
-    dbfamily: pandas.DataFrame = dataclasses.field(default_factory=pandas.DataFrame, repr=False)
-    dbweapontohit: pandas.DataFrame = dataclasses.field(default_factory=pandas.DataFrame, repr=False)
+    dbfamily: dataclasses.InitVar[pandas.DataFrame] = None
+    dbweapontohit: dataclasses.InitVar[pandas.DataFrame] = None
+
+    def __post_init__(self, dbfamily: pandas.DataFrame, dbweapontohit: pandas.DataFrame):
+        self.dbfamily = dbfamily
+        self.dbweapontohit = dbweapontohit
 
     @property
     def cost_total(self) -> int:
@@ -68,9 +73,10 @@ class Unit:
     def damage_dealt_per_hit(self, defender: 'Unit'):
         attack = self.attack_final(defender)
         if attack == 0:
-            return 0.
+            return 0
         else:
             damage = attack - defender.armor_final(self)
+            damage = int(damage)
             damage = max(1, damage)
             return damage
 
@@ -82,6 +88,30 @@ class Unit:
 
     def fractional_damage_dealt_per_second_per_resource(self, defender: 'Unit'):
         return self.fractional_damage_dealt_per_second(defender) / self.cost_total
+
+    def ratio_fractional_damage_dealt_per_second(self, defender: 'Unit'):
+        value_attacker = self.fractional_damage_dealt_per_second(defender)
+        value_defender = defender.fractional_damage_dealt_per_second(self)
+        if value_defender == 0:
+            if value_attacker == 0:
+                value = np.nan
+            else:
+                value = np.inf
+        else:
+            value = value_attacker / value_defender
+        return value
+
+    def ratio_fractional_damage_dealt_per_second_per_resource(self, defender: 'Unit'):
+        value_attacker = self.fractional_damage_dealt_per_second_per_resource(defender)
+        value_defender = defender.fractional_damage_dealt_per_second_per_resource(self)
+        if value_defender == 0:
+            if value_attacker == 0:
+                value = np.nan
+            else:
+                value = np.inf
+        else:
+            value = value_attacker / value_defender
+        return value
 
     def is_available(self, epoch: int):
         return self.epoch_start <= epoch <= self.epoch_stop
@@ -116,6 +146,9 @@ class Unit:
     @property
     def building_id_sorted(self):
         ordering_map = [
+            'Single Player Settlement',
+            'Town Center',
+            'Capitol',
             'Barracks',
             'Stable',
             'Archery Range',
@@ -124,9 +157,6 @@ class Unit:
             'Cyber Laboratory',
             'Siege Factory',
             'Citizen',
-            'Single Player Settlement',
-            'Town Center',
-            'Capitol',
             'Dock',
             'Naval Yard',
             'Carrier - Enterprise',
