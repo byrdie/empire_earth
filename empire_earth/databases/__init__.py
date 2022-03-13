@@ -16,6 +16,15 @@ def dbobjects_struct() -> pandas.DataFrame:
 
 
 def dbobjects() -> pandas.DataFrame:
+    """
+    .. jupyter-execute::
+
+        import empire_earth.databases
+
+        dbobjects = empire_earth.databases.dbobjects()
+        dbobjects.style.set_sticky('columns')
+    """
+
     cache = path_base / 'dbobjects.pickle'
 
     if not cache.exists():
@@ -31,14 +40,7 @@ def dbobjects() -> pandas.DataFrame:
 
 
 def _calc_dbobjects() -> pandas.DataFrame:
-    """
-    .. jupyter-execute::
-        
-        import empire_earth.databases
-        
-        dbobjects = empire_earth.databases.dbobjects()
-        dbobjects.style.set_sticky('columns')
-    """
+
     dbobjects_structure = dbobjects_struct()
 
     columns = [index for index, row in dbobjects_structure.iterrows()]

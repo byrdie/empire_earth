@@ -17,14 +17,19 @@ def all() -> Dict[str, Unit]:
 
     result = dict()
 
+    ignored_units = [
+        'Spitfire Fighter',
+        'ME109 Fighter/Bomber',
+        'Heinkel Bomber',
+    ]
+
     for index, row in dbobjects.iterrows():
 
         id_language = row['Language ID']
         if id_language in dblanguage.index:
             name = dblanguage.loc[id_language].to_numpy()[0].replace('"', '').lstrip(' ')
-            object_id = row.index[0]
-            # object_id = row['Object ID']
-            tech_id = row['Technology ID']
+            if name in ignored_units:
+                continue
 
             if '(Fire)' in name:
                 # print(' - skipping', name)
@@ -34,9 +39,11 @@ def all() -> Dict[str, Unit]:
                 # print(' - skipping', name)
                 continue
 
+            object_id = row.index.name
             if object_id == -1:
                 continue
 
+            tech_id = row['Technology ID']
             if tech_id not in dbtechtree.index:
                 # print(' - skipping', name)
                 continue
@@ -47,13 +54,13 @@ def all() -> Dict[str, Unit]:
                 # print(' - skipping', name)
                 continue
 
-            # if row_techtree['Button Index'] == -1:
+            if row_techtree['Button Index'] == -1:
+                # print(' - skipping', name)
+                continue
+
+            if row_techtree['Object ID'] == -1:
             #     print(' - skipping', name)
-            #     continue
-            #
-            # if row_techtree['Object ID'] == -1:
-            #     print(' - skipping', name)
-            #     continue
+                continue
 
             mask_building = dbtechtree['Building ID'] == row_techtree['Building ID']
             mask_button = dbtechtree['Button Index'] == row_techtree['Button Index']
@@ -113,6 +120,7 @@ def attackers(epoch: Optional[int] = None) -> Dict[str, Unit]:
     units = all()
     units = [units[name] for name in units if is_attacker(units[name], epoch)]
     units.sort(key=lambda unit: unit.button_id)
+    units.sort(key=lambda unit: unit.cost_total)
     units.sort(key=lambda unit: unit.building_id_sorted)
     # units.sort(key=lambda unit: unit.theater_id)
     units = {unit.name: unit for unit in units}
