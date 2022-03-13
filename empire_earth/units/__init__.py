@@ -22,7 +22,8 @@ def all() -> Dict[str, Unit]:
         id_language = row['Language ID']
         if id_language in dblanguage.index:
             name = dblanguage.loc[id_language].to_numpy()[0].replace('"', '').lstrip(' ')
-            object_id = row['Object ID']
+            object_id = row.index
+            # object_id = row['Object ID']
             tech_id = row['Technology ID']
 
             if '(Fire)' in name:
