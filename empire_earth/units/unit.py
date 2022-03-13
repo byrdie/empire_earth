@@ -100,9 +100,9 @@ class Unit:
             23: 'Hero',
         }
         ordering_map = [
+            'Land',
             'Citizen',
             'Hero',
-            'Land',
             'Land Building',
             'Ships',
             'Submarines',

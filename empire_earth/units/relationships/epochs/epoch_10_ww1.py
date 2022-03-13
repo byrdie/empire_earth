@@ -1,4 +1,16 @@
 """
+=====
+Units
+=====
+
+.. jupyter-execute::
+
+    import pandas
+    import empire_earth.units.relationships.matrices
+
+    epoch = 10
+    units = empire_earth.units.attackers(epoch)
+    pandas.DataFrame(units)
 
 ===========================
 Tactical Unit Relationships
