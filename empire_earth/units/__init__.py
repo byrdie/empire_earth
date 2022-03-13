@@ -64,12 +64,17 @@ def all() -> Dict[str, Unit]:
             else:
                 epoch_stop = row_techtree['Ending Epoch']
 
+            building_id = row_techtree['Building ID']
+            building_row = dbobjects[building_id]
+            building_name = dblanguage.loc[building_row['Language ID']].to_numpy()[0].replace('"', '').lstrip(' ')
+
             unit = Unit(
                 name=name,
                 id=object_id,
                 type_id=row['Unit Type ID'],
                 family=row['Family'],
-                building_id=row_techtree['Building ID'],
+                building=building_name,
+                button_id=row_techtree['Button Index'],
                 hitpoints=row['Health'],
                 attack=row['Attack'],
                 attack_mode=row['Attack Mode'],
@@ -103,8 +108,8 @@ def attackers(epoch: Optional[int] = None) -> Dict[str, Unit]:
 
     units = all()
     units = [units[name] for name in units if is_attacker(units[name], epoch)]
-    units.sort(key=lambda unit: unit.cost_total)
-    units.sort(key=lambda unit: unit.building_id)
-    units.sort(key=lambda unit: unit.theater_id)
+    units.sort(key=lambda unit: unit.button_id)
+    units.sort(key=lambda unit: unit.building_id_sorted)
+    # units.sort(key=lambda unit: unit.theater_id)
     units = {unit.name: unit for unit in units}
     return units

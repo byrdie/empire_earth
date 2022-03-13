@@ -80,7 +80,8 @@ def _calc_dbobjects() -> pandas.DataFrame:
 
     result = pandas.DataFrame(result, columns=columns)
 
-    return result.set_index('DB Name')
+    return result.set_index('Object ID')
+
 
 def dbfamily() -> pandas.DataFrame:
 

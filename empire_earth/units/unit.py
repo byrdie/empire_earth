@@ -9,7 +9,8 @@ class Unit:
     id: int = 0
     type_id: int = 0
     family: int = 0
-    building_id: int = 0
+    building: str = ''
+    button_id: int = 0
     hitpoints: float = 0
     attack: float = 0
     attack_mode: int = 0
@@ -111,3 +112,22 @@ class Unit:
         ]
         ordering_map = {item: ordering_map.index(item) for item in ordering_map}
         return ordering_map[type_id_map[self.type_id]]
+
+    @property
+    def building_id_sorted(self):
+        ordering_map = [
+            'Barracks',
+            'Stable',
+            'Archery Range',
+            'Tank Factory',
+            'Cyber Factory',
+            'Cyber Laboratory',
+            'Siege Factory',
+            'Capitol',
+            'Dock',
+            'Naval Yard',
+            'Aircraft Carrier',
+            'Airport',
+        ]
+        ordering_map = {item: ordering_map.index(item) for item in ordering_map}
+        return ordering_map[self.building]
