@@ -22,7 +22,7 @@ def all() -> Dict[str, Unit]:
         id_language = row['Language ID']
         if id_language in dblanguage.index:
             name = dblanguage.loc[id_language].to_numpy()[0].replace('"', '').lstrip(' ')
-            object_id = row.index
+            object_id = row.index[0]
             # object_id = row['Object ID']
             tech_id = row['Technology ID']
 
@@ -66,8 +66,11 @@ def all() -> Dict[str, Unit]:
                 epoch_stop = row_techtree['Ending Epoch']
 
             building_id = row_techtree['Building ID']
-            building_row = dbobjects[building_id]
-            building_name = dblanguage.loc[building_row['Language ID']].to_numpy()[0].replace('"', '').lstrip(' ')
+            if building_id > 0:
+                building_row = dbobjects.loc[building_id]
+                building_name = dblanguage.loc[building_row['Language ID']].to_numpy()[0].replace('"', '').lstrip(' ')
+            else:
+                building_name = ''
 
             unit = Unit(
                 name=name,

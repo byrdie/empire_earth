@@ -123,10 +123,13 @@ class Unit:
             'Cyber Factory',
             'Cyber Laboratory',
             'Siege Factory',
+            'Citizen',
+            'Single Player Settlement',
+            'Town Center',
             'Capitol',
             'Dock',
             'Naval Yard',
-            'Aircraft Carrier',
+            'Carrier - Enterprise',
             'Airport',
         ]
         ordering_map = {item: ordering_map.index(item) for item in ordering_map}
