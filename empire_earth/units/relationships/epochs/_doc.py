@@ -14,8 +14,8 @@ Units
     import empire_earth.units.relationships.matrices
 
     epoch = {epoch}
-    units = empire_earth.units.attackers(epoch)
-    pandas.DataFrame(units.values())
+    units = empire_earth.units.attackers(epoch).values()
+    pandas.DataFrame(units)
 
 ===========================
 Damage Dealt per Hit
@@ -23,7 +23,15 @@ Damage Dealt per Hit
 
 .. jupyter-execute::
 
-    empire_earth.units.relationships.matrices.matrix_damage_dealt_per_hit(units.values())
+    empire_earth.units.relationships.matrices.matrix_damage_dealt_per_hit(units)
+
+===========================
+Damage Dealt per Second
+===========================
+
+.. jupyter-execute::
+
+    empire_earth.units.relationships.matrices.matrix_damage_dealt_per_second(units)
 
 ===========================
 Tactical Unit Relationships
@@ -31,7 +39,7 @@ Tactical Unit Relationships
 
 .. jupyter-execute::
 
-    empire_earth.units.relationships.matrices.matrix_tactical(units.values())
+    empire_earth.units.relationships.matrices.matrix_tactical(units)
 
 ============================
 Strategic Unit Relationships
@@ -39,6 +47,6 @@ Strategic Unit Relationships
 
 .. jupyter-execute::
 
-    empire_earth.units.relationships.matrices.matrix_strategic(units.values())
+    empire_earth.units.relationships.matrices.matrix_strategic(units)
 
 """
