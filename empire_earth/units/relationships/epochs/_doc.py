@@ -1,4 +1,4 @@
-def _calc(epoch: int):
+def calc(epoch: int):
     return f"""
 =====
 Units
