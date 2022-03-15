@@ -24,6 +24,7 @@ def stylize_damage(matrix: pandas.DataFrame):
         gmap=gmap,
     )
 
+
 def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
 
     result = []
@@ -51,7 +52,7 @@ def matrix_damage_dealt_per_hit(units: List[Unit]) -> pandas.DataFrame:
 
 def matrix_damage_dealt_per_second(units: List[Unit]) -> pandas.DataFrame:
     matrix = _matrix('damage_dealt_per_second', units)
-    return stylize_damage(matrix)
+    return stylize_damage(matrix.style.format('{:.2f}'))
 
 
 def matrix_tactical(units: List[Unit]) -> pandas.DataFrame:
