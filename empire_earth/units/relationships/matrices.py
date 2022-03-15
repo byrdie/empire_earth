@@ -49,7 +49,7 @@ def matrix_damage_dealt_per_hit(units: List[Unit]) -> pandas.DataFrame:
 def matrix_damage_dealt_per_second(units: List[Unit]) -> pandas.DataFrame:
     matrix = _matrix('damage_dealt_per_second', units)
     gmap = np.log10(matrix.to_numpy())
-    return matrix.style.format(':.2f').set_sticky('rows').background_gradient(
+    return matrix.style.format('{:.2f}').set_sticky('rows').background_gradient(
         axis=None,
         cmap='viridis',
         vmin=-0.1,
