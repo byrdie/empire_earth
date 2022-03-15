@@ -15,16 +15,6 @@ def stylize(matrix: pandas.DataFrame):
     )
 
 
-def stylize_damage(matrix: pandas.DataFrame):
-    gmap = np.log10(matrix.to_numpy())
-    return matrix.style.set_sticky('rows').background_gradient(
-        axis=None,
-        cmap='viridis',
-        vmin=-0.1,
-        gmap=gmap,
-    )
-
-
 def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
 
     result = []
@@ -47,12 +37,24 @@ def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
 
 def matrix_damage_dealt_per_hit(units: List[Unit]) -> pandas.DataFrame:
     matrix = _matrix('damage_dealt_per_hit', units).astype('int')
-    return stylize_damage(matrix)
+    gmap = np.log10(matrix.to_numpy())
+    return matrix.style.set_sticky('rows').background_gradient(
+        axis=None,
+        cmap='viridis',
+        vmin=-0.1,
+        gmap=gmap,
+    )
 
 
 def matrix_damage_dealt_per_second(units: List[Unit]) -> pandas.DataFrame:
     matrix = _matrix('damage_dealt_per_second', units)
-    return stylize_damage(matrix.style.format('{:.2f}'))
+    gmap = np.log10(matrix.to_numpy())
+    return matrix.style.format(':.2f').set_sticky('rows').background_gradient(
+        axis=None,
+        cmap='viridis',
+        vmin=-0.1,
+        gmap=gmap,
+    )
 
 
 def matrix_tactical(units: List[Unit]) -> pandas.DataFrame:
