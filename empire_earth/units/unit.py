@@ -164,3 +164,93 @@ class Unit:
         ]
         ordering_map = {item: ordering_map.index(item) for item in ordering_map}
         return ordering_map[self.building]
+
+    @property
+    def theater(self) -> str:
+
+        family_name = self.dbfamily.loc[self.family, 'family name']
+
+        families_land = [
+            'Resource',
+            'Tank',
+            'Building',
+            'Anti Tank',
+            'Priest',
+            'Hero',
+            'Spear Thrower',
+            'Machines',
+            'Human Musket',
+            'Human Sword',
+            'Mounted Archer',
+            'Lancer',
+            'Curiassier',
+            'Human',
+            'Mech - Minotaur',
+            'Mech - Medium',
+            'Mech - Zeus',
+            'Mech - Cyclops',
+            'Human Archer',
+            'Ram',
+            'Siege',
+            'Mech - Apollo',
+            'Tank - Strong',
+            'Ambient',
+            'Citizen',
+            'Towers',
+            'Human Machine Gun',
+            'Medieval Field Weapon',
+            'Human Spear',
+            'Mounted Spear',
+            'Mech - Underwater',
+            'Walls',
+            'War Elephant',
+            'Elephant Archer',
+            'Elite Guard',
+            'Artillery',
+            'Cavalry Archer',
+        ]
+
+        families_sea = [
+            'Submarine',
+            'Ship',
+            'Fish',
+            'Battleship',
+            'Mines',
+            'Towers',
+            'Mech - Underwater',
+            'Ship Galley',
+            'Aircraft Carrier',
+            'ICBM'
+        ]
+
+        families_air = [
+            'Aircraft',
+            'Helicopter',
+            'Bomber',
+            'Aircraft Carrier Fighter',
+            'Land AA',
+            'Atomic Bomber',
+            'AA Building',
+        ]
+
+        families_space = [
+            'Spaceship',
+            'Space Fighter',
+            'Space Corvette',
+            'Tower - Space Turret',
+        ]
+
+        if family_name in families_land:
+            return 'Land'
+
+        elif family_name in families_sea:
+            return 'Sea'
+
+        elif family_name in families_air:
+            return 'Air'
+
+        elif family_name in families_space:
+            return 'Space'
+
+        else:
+            raise ValueError(f'familiy name {family_name} not recognized')
