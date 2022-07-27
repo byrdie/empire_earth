@@ -1,4 +1,6 @@
-def calc(epoch: int):
+import typing
+
+def calc(epoch: int, theater: typing.Optional[str] = None):
     return f"""
 =====
 Units
@@ -14,7 +16,10 @@ Units
     import empire_earth.units.relationships.matrices
 
     epoch = {epoch}
+    theater = {theater}
     units = empire_earth.units.attackers(epoch).values()
+    if theater is not None:
+        units = [units for unit in unis if unit.theater == theater]
     pandas.DataFrame(units)
 
 ===========================
