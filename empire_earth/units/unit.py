@@ -170,6 +170,8 @@ class Unit:
 
         family_name = self.dbfamily.loc[self.family, 'family name']
 
+        family_name = ''.join(c for c in family_name if c.isprintable())
+
         families_land = [
             'Resource',
             'Tank',
