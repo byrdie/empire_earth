@@ -19,7 +19,7 @@ Units
     theater = '{theater}'
     units = empire_earth.units.attackers(epoch).values()
     if theater is not None:
-        units = [units for unit in unis if unit.theater == theater]
+        units = [units for unit in units if unit.theater == theater]
     pandas.DataFrame(units)
 
 ===========================
