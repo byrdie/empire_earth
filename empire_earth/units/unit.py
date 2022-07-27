@@ -205,6 +205,7 @@ class Unit:
             'Mounted Spear',
             'Mech - Underwater',
             'Walls',
+            'Viking',
             'War Elephant',
             'Elephant Archer',
             'Elite Guard',
