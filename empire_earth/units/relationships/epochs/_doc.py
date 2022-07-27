@@ -1,6 +1,6 @@
 import typing
 
-def calc(epoch: int, theater: typing.Optional[str] = None):
+def calc(epoch: int, theater: str = 'Land'):
     return f"""
 =====
 Units
