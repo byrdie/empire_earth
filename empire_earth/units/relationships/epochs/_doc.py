@@ -18,8 +18,13 @@ Units
     epoch = {epoch}
     theater = '{theater}'
     units = empire_earth.units.attackers(epoch).values()
-    if theater is not None:
-        units = [unit for unit in units if unit.theater == theater]
+    if theater == 'Land':
+        units = [unit for unit in units if unit.is_land]
+    elif theater == 'Sea':
+        units = [unit for unit in units if unit.is_sea]
+    elif theater == 'Air':
+        units = [unit for unit in units if unit.is_air]
+
     pandas.DataFrame(units)
 
 ===========================

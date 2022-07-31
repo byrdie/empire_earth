@@ -166,94 +166,76 @@ class Unit:
         return ordering_map[self.building]
 
     @property
-    def theater(self) -> str:
+    def is_land(self) -> bool:
 
-        family_name = self.dbfamily.loc[self.family, 'family name']
-
-        family_name = ''.join(c for c in family_name if c.isprintable())
-
-        families_land = [
-            'Resource',
-            'Tank',
-            'Building',
-            'Anti Tank',
-            'Priest',
-            'Hero',
-            'Spear Thrower',
-            'Machines',
-            'Human Musket',
-            'Human Sword',
-            'Mounted Archer',
-            'Lancer',
-            'Curiassier',
-            'Human',
-            'Mech - Minotaur',
-            'Mech - Medium',
-            'Mech - Zeus',
-            'Mech - Cyclops',
-            'Human Archer',
-            'Ram',
-            'Siege',
-            'Mech - Apollo',
-            'Tank - Strong',
-            'Ambient',
-            'Citizen',
-            'Towers',
-            'Human Machine Gun',
-            'Medieval Field Weapon',
-            'Human Spear',
-            'Mounted Spear',
-            'Mech - Underwater',
-            'Walls',
-            'Viking',
-            'War Elephant',
-            'Elephant Archer',
-            'Elite Guard',
-            'Artillery',
-            'Cavalry Archer',
+        attack_modes = [
+            0,
+            2,
+            4,
+            5,
+            6,
+            10,
+            13,
+            14,
+            16,
+            17,
+            19,
+            21,
+            23,
+            25,
+            26,
+            27,
+            28,
+            29,
+            32,
+            33,
+            39,
+            42,
+            43,
+            44,
+            45,
+            46,
+            48,
+            49,
+            50,
+            52,
+            53,
+            54,
+            56,
+            57,
         ]
 
-        families_sea = [
-            'Submarine',
-            'Ship',
-            'Fish',
-            'Battleship',
-            'Mines',
-            'Towers',
-            'Mech - Underwater',
-            'Ship Galley',
-            'Aircraft Carrier',
-            'ICBM'
+        return self.attack_mode in attack_modes
+
+    @property
+    def is_sea(self) -> bool:
+
+        attack_modes = [
+            1,
+            3,
+            9,
+            18,
+            26,
+            34,
+            44,
+            51,
         ]
 
-        families_air = [
-            'Aircraft',
-            'Helicopter',
-            'Bomber',
-            'Aircraft Carrier Fighter',
-            'Land AA',
-            'Atomic Bomber',
-            'AA Building',
+        return self.attack_mode in attack_modes
+
+    @property
+    def is_air(self) -> bool:
+
+        attack_modes = [
+            7,
+            12,
+            29,
+            30,
+            31,
+            35,
+            40,
+            41,
+            60,
         ]
 
-        families_space = [
-            'Spaceship',
-            'Space Fighter',
-            'Space Corvette',
-            'Tower - Space Turret',
-        ]
-
-        if family_name in families_land:
-            return 'Land'
-
-        elif family_name in families_sea:
-            return 'Sea'
-
-        elif family_name in families_air:
-            return 'Air'
-
-        elif family_name in families_space:
-            return 'Space'
-
-        else:
-            raise ValueError(f'familiy name {family_name} not recognized')
+        return self.attack_mode in attack_modes
