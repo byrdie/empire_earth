@@ -85,8 +85,19 @@ class Unit:
     def damage_dealt_per_second(self, defender: 'Unit'):
         return self.damage_dealt_per_hit(defender) / self.seconds_per_attack
 
+    def damage_dealt_out_of_range(self, defender: 'Unit'):
+        difference_range = self.range - defender.range
+        if difference_range > 0:
+            time_advantage = difference_range / defender.speed
+            return self.damage_dealt_per_second(defender) * time_advantage
+        else:
+            return 0
+
+    def hitpoints_effective(self, defender: 'Unit'):
+        return self.hitpoints - defender.damage_dealt_out_of_range(self)
+
     def fractional_damage_dealt_per_second(self, defender: 'Unit'):
-        return self.damage_dealt_per_second(defender) / defender.hitpoints
+        return self.damage_dealt_per_second(defender) / defender.hitpoints_effective(self)
 
     def fractional_damage_dealt_per_second_per_resource(self, defender: 'Unit'):
         return self.fractional_damage_dealt_per_second(defender) / self.cost_total
