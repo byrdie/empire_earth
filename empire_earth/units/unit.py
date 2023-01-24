@@ -88,8 +88,11 @@ class Unit:
     def damage_dealt_out_of_range(self, defender: 'Unit'):
         difference_range = self.range - defender.range
         if difference_range > 0:
-            time_advantage = difference_range / defender.speed
-            return self.damage_dealt_per_second(defender) * time_advantage
+            if defender.speed > 0:
+                time_advantage = difference_range / defender.speed
+                return self.damage_dealt_per_second(defender) * time_advantage
+            else:
+                return np.inf
         else:
             return 0
 
