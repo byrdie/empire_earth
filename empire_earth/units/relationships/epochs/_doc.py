@@ -49,7 +49,7 @@ Damage Dealt Out of Range
 
 .. jupyter-execute::
 
-    empire_earth.units.relationships.matrices.damage_dealt_out_of_range(units)
+    empire_earth.units.relationships.matrices.matrix_damage_dealt_out_of_range(units)
 
 ===========================
 Tactical Unit Relationships
