@@ -100,7 +100,11 @@ class Unit:
         return max(self.hitpoints - defender.damage_dealt_out_of_range(self), 0)
 
     def fractional_damage_dealt_per_second(self, defender: 'Unit'):
-        return self.damage_dealt_per_second(defender) / defender.hitpoints_effective(self)
+        hitpoints_effective = defender.hitpoints_effective(self)
+        if hitpoints_effective != 0:
+            return self.damage_dealt_per_second(defender) / hitpoints_effective
+        else:
+            return np.inf
 
     def fractional_damage_dealt_per_second_per_resource(self, defender: 'Unit'):
         return self.fractional_damage_dealt_per_second(defender) / self.cost_total
