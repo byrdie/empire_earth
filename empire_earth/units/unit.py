@@ -97,7 +97,7 @@ class Unit:
             return 0
 
     def hitpoints_effective(self, defender: 'Unit'):
-        return self.hitpoints - defender.damage_dealt_out_of_range(self)
+        return max(self.hitpoints - defender.damage_dealt_out_of_range(self), 0)
 
     def fractional_damage_dealt_per_second(self, defender: 'Unit'):
         return self.damage_dealt_per_second(defender) / defender.hitpoints_effective(self)
