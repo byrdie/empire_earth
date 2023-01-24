@@ -64,7 +64,7 @@ def matrix_damage_dealt_out_of_range(units: List[Unit]) -> pandas.DataFrame:
         axis=None,
         cmap='viridis',
         vmin=-0.1,
-        vmax=gmap[np.isfinite(gmap)].max(),
+        vmax=gmap[np.isfinite(gmap)].max(initial=0),
         gmap=gmap,
     )
 
