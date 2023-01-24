@@ -88,6 +88,7 @@ def all() -> Dict[str, Unit]:
                 building=building_name,
                 button_id=row_techtree['Button Index'],
                 hitpoints=row['Health'],
+                speed=row['Speed'],
                 attack=row['Attack'],
                 attack_mode=row['Attack Mode'],
                 seconds_per_attack=row['Attack Speed'],

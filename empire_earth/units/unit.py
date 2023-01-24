@@ -13,6 +13,7 @@ class Unit:
     building: str = ''
     button_id: int = 0
     hitpoints: float = 0
+    speed: float = 0
     attack: float = 0
     attack_mode: int = 0
     seconds_per_attack: float = 0
