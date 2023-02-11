@@ -5,7 +5,7 @@ from ..unit import Unit
 
 
 def color_index(s):
-    return np.full_like(s, "background-color: yellow;")
+    return np.array(["background-color: yellow;"] * len(s))
 
 
 def stylize(matrix: pandas.DataFrame):
