@@ -12,7 +12,7 @@ def stylize(matrix: pandas.DataFrame):
         vmin=-1,
         vmax=1,
         gmap=gmap,
-    )
+    ).apply_index("background-color: white;")
 
 
 def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
@@ -43,7 +43,7 @@ def matrix_damage_dealt_per_hit(units: List[Unit]) -> pandas.DataFrame:
         cmap='viridis',
         vmin=-0.1,
         gmap=gmap,
-    )
+    ).apply_index("background-color: white;")
 
 
 def matrix_damage_dealt_per_second(units: List[Unit]) -> pandas.DataFrame:
@@ -54,7 +54,7 @@ def matrix_damage_dealt_per_second(units: List[Unit]) -> pandas.DataFrame:
         cmap='viridis',
         vmin=-0.1,
         gmap=gmap,
-    )
+    ).apply_index("background-color: white;")
 
 
 def matrix_damage_dealt_out_of_range(units: List[Unit]) -> pandas.DataFrame:
@@ -66,7 +66,7 @@ def matrix_damage_dealt_out_of_range(units: List[Unit]) -> pandas.DataFrame:
         vmin=-0.1,
         vmax=gmap[np.isfinite(gmap)].max(initial=0),
         gmap=gmap,
-    )
+    ).apply_index("background-color: white;")
 
 
 def matrix_tactical(units: List[Unit]) -> pandas.DataFrame:
