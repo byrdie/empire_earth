@@ -259,3 +259,14 @@ class Unit:
         ]
 
         return self.attack_mode in attack_modes
+
+    @property
+    def theater(self):
+        if self.is_land:
+            return "Land"
+        elif self.is_sea:
+            return "Sea"
+        elif self.is_air:
+            return "Air"
+        else:
+            raise ValueError("unknown theater")
