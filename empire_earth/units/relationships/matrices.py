@@ -16,7 +16,7 @@ def stylize(matrix: pandas.DataFrame):
         vmin=-1,
         vmax=1,
         gmap=gmap,
-    ).apply_index(color_index).set_sticky('rows')
+    ).set_sticky('rows')
 
 
 def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
@@ -33,6 +33,7 @@ def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
         result.append(result_row)
 
     result = pandas.DataFrame(result, columns=['Attacker'] + [unit.name for unit in units])
+    result.style.set_properties(**{'background-color': 'red'}, subset=['Attacker'])
     result = result.set_index('Attacker')
     result.index.name = None
 
