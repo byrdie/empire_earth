@@ -20,7 +20,7 @@ Units
     units = empire_earth.units.attackers(epoch).values()
     units = [unit for unit in units if unit.theater == theater]
 
-    pandas.DataFrame(units).style.set_sticky('rows')
+    pandas.DataFrame(units).set_index('name').style.set_sticky('rows')
 
 ===========================
 Damage Dealt per Hit
