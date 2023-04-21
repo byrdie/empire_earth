@@ -10,7 +10,7 @@ setup(
         'matplotlib',
         'pandas',
         'sphinx-autodoc-typehints',
-        'astropy-sphinx-theme',
+        'pydata-sphinx-theme',
         'jupyter-sphinx',
     ],
     package_data={
