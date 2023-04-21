@@ -10,13 +10,13 @@ def color_index(s):
 
 def stylize(matrix: pandas.DataFrame):
     gmap = np.log10(matrix.to_numpy())
-    return matrix.style.format(formatter='{:.2f}').set_sticky('rows').background_gradient(
+    return matrix.style.format(formatter='{:.2f}').background_gradient(
         axis=None,
         cmap='bwr_r',
         vmin=-1,
         vmax=1,
         gmap=gmap,
-    ).apply_index(color_index)
+    ).apply_index(color_index).set_sticky('rows')
 
 
 def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
