@@ -4,19 +4,19 @@ import pandas
 from ..unit import Unit
 
 
-def color_index(s):
-    return np.array(["background-color: yellow;"] * len(s))
-
-
 def stylize(matrix: pandas.DataFrame):
     gmap = np.log10(matrix.to_numpy())
-    return matrix.style.format(formatter='{:.2f}').background_gradient(
+    result = matrix.style
+    result = result.format(formatter='{:.2f}')
+    result = result.background_gradient(
         axis=None,
         cmap='bwr_r',
         vmin=-1,
         vmax=1,
         gmap=gmap,
-    ).set_sticky('rows')
+    )
+    result = result.set_sticky(axis='index')
+    return result
 
 
 def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
@@ -33,7 +33,6 @@ def _matrix(func_name: str, units: List[Unit]) -> pandas.DataFrame:
         result.append(result_row)
 
     result = pandas.DataFrame(result, columns=['Attacker'] + [unit.name for unit in units])
-    result.style.set_properties(**{'background-color': 'red'}, subset=['Attacker'])
     result = result.set_index('Attacker')
     result.index.name = None
 
@@ -48,7 +47,7 @@ def matrix_damage_dealt_per_hit(units: List[Unit]) -> pandas.DataFrame:
         cmap='viridis',
         vmin=-0.1,
         gmap=gmap,
-    ).apply_index(color_index)
+    )
 
 
 def matrix_damage_dealt_per_second(units: List[Unit]) -> pandas.DataFrame:
@@ -59,7 +58,7 @@ def matrix_damage_dealt_per_second(units: List[Unit]) -> pandas.DataFrame:
         cmap='viridis',
         vmin=-0.1,
         gmap=gmap,
-    ).apply_index(color_index)
+    )
 
 
 def matrix_damage_dealt_out_of_range(units: List[Unit]) -> pandas.DataFrame:
@@ -71,7 +70,7 @@ def matrix_damage_dealt_out_of_range(units: List[Unit]) -> pandas.DataFrame:
         vmin=-0.1,
         vmax=gmap[np.isfinite(gmap)].max(initial=0),
         gmap=gmap,
-    ).apply_index(color_index)
+    )
 
 
 def matrix_tactical(units: List[Unit]) -> pandas.DataFrame:
